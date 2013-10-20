@@ -19,6 +19,7 @@ class AppCoreTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($result[0], 'index', 'First element of the result is not "index"');
         $this->assertEquals($result[1], 'print_r', 'Second element of the result is not "print_r"');
+        $this->assertEquals($result[2], '127.0.0.1', 'Third element of the result is not "127.0.0.1"');
 
     }
 
@@ -45,10 +46,16 @@ class AppCoreTest extends PHPUnit_Framework_TestCase
                 ->with($this->equalTo('format'))
                 ->will($this->returnValue('json'));
 
+        $request->expects($this->at(2))
+                ->method('getParam')
+                ->with($this->equalTo('client_ip'))
+                ->will($this->returnValue('localhost'));
+
         $result = $app->run($request);
 
         $this->assertEquals($result[0], 'create-account', 'First element of the result is not "create-account"');
         $this->assertEquals($result[1], 'json', 'Second element of the result is not "json"');
+        $this->assertEquals($result[2], 'localhost', 'Third element of the result is not "localhost"');
 
     }
 
@@ -69,6 +76,7 @@ class AppCoreTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($result[0], 'index', 'First element of the result is not "create-account"');
         $this->assertEquals($result[1], 'print_r', 'Second element of the result is not "json"');
+        $this->assertEquals($result[2], '127.0.0.1', 'Third element of the result is not "127.0.0.1"');
 
     }
 
